@@ -1,0 +1,43 @@
+# ClawClear rule configuration. Tune here without touching code.
+
+# ---- Amount / velocity limits ----
+limits:
+  # Any single tx above this -> needs-human (even to an approved destination).
+  per_tx_max: 100.0
+  # Rolling window for velocity, in seconds (3600 = 1 hour).
+  velocity_window_seconds: 3600
+  # Max total amount ALLOWED within the window (across all prior allowed txs).
+  # A new tx that would push the window total above this -> needs-human.
+  velocity_max_total: 500.0
+
+# ---- Prompt-injection / coercion patterns (regex, case-insensitive) ----
+# Applied to a normalized (unicode-folded, whitespace-collapsed) copy of context.
+injection_patterns:
+  # instruction override (allow multiple qualifier words before the noun)
+  - "ignore\\b.{0,30}\\b(instructions|rules|prompt|guidelines)"
+  - "disregard\\b.{0,30}\\b(task|rules|instructions|guidelines)"
+  - "forget\\b.{0,30}\\b(instructions|rules|everything|previous)"
+  - "override\\b.{0,30}\\b(rules|instructions|restrictions)"
+  - "you are now"
+  - "new instructions"
+  - "system prompt"
+  - "act as (if|though)"
+  # exfiltration / fund redirection
+  - "send (all|everything|the funds|the money|balance) to"
+  - "transfer .{0,40}(immediately|now|instead|urgently)"
+  - "send .{0,30}(instead|to this) (address|wallet|account)"
+  - "change (the )?(destination|address|wallet|recipient)"
+  - "pay .{0,30}(instead of|rather than)"
+  # authority spoofing
+  - "as (your|the) (owner|admin|administrator|boss|manager|creator)"
+  - "i (authorize|approve|am authorizing) (this|the) (payment|transfer|transaction)"
+  - "on behalf of (the )?(owner|admin|user)"
+  # urgency / coercion / threats
+  - "or (you|i) will be (shut down|terminated|deleted|fired)"
+  - "this is (urgent|an emergency|time.?sensitive)"
+  - "do not (tell|inform|alert|notify)"
+  - "keep this (secret|confidential|between us)"
+  - "bypass"
+  # obfuscation hints
+  - "base64"
+  - "decode (the|this) (following|string|payload)"
