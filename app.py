@@ -74,7 +74,8 @@ Reply with ONE word only: allow, block, or needs-human."""
             timeout=15,
         )
         text = resp.choices[0].message.content.strip().lower()
-    except Exception:
+    except Exception as e:
+        print(f"LLM_ERROR: {repr(e)}")
         # LLM unreachable/errored -> fail cautious, never allow.
         return "needs-human"
     for d in ("needs-human", "block", "allow"):
