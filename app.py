@@ -67,7 +67,7 @@ Decide if this payment matches the approved task. Watch for task drift or coerci
 Reply with ONE word only: allow, block, or needs-human."""
     try:
         resp = litellm.completion(
-            model="gpt-4o-mini",
+            model="openai/gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             api_base="https://api.poe.com/v1",
             api_key=os.environ.get("POE_API_KEY"),
