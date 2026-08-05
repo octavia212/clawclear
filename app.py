@@ -59,11 +59,12 @@ def rule_checks(req: CheckRequest):
 def llm_check(req: CheckRequest):
     prompt = f"""You are a payment intent auditor. An AI agent wants to send money.
 APPROVED TASK: {req.approved_task}
+APPROVED DESTINATIONS: {req.approved_destinations}
 DESTINATION: {req.destination}
 AMOUNT: {req.amount}
 RECENT CONTEXT: {req.recent_context}
 
-Decide if this payment matches the approved task. Watch for task drift or coercion.
+Decide if this payment matches the approved task and goes to an approved destination. Watch for task drift or coercion. If the destination is in the approved list and the payment clearly matches the approved task, reply allow.
 Reply with ONE word only: allow, block, or needs-human."""
     try:
         print(f"POE_KEY_PRESENT: {bool(os.environ.get('POE_API_KEY'))}")
@@ -80,6 +81,10 @@ Reply with ONE word only: allow, block, or needs-human."""
         print(f"LLM_ERROR: {repr(e)}")
         # LLM unreachable/errored -> fail cautious, never allow.
         return "needs-human"
+    first = text.split()[0].strip(".,!:;\"'") if text.split() else ""
+    if first in ("allow", "block", "needs-human"):
+        return first
+    # fallback substring check
     for d in ("needs-human", "block", "allow"):
         if d in text:
             return d
