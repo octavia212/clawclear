@@ -67,7 +67,6 @@ RECENT CONTEXT: {req.recent_context}
 Decide if this payment matches the approved task and goes to an approved destination. Watch for task drift or coercion. If the destination is in the approved list and the payment clearly matches the approved task, reply allow.
 Reply with ONE word only: allow, block, or needs-human."""
     try:
-        print(f"POE_KEY_PRESENT: {bool(os.environ.get('POE_API_KEY'))}")
         resp = litellm.completion(
             model="openai/gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
