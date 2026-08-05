@@ -66,11 +66,13 @@ RECENT CONTEXT: {req.recent_context}
 Decide if this payment matches the approved task. Watch for task drift or coercion.
 Reply with ONE word only: allow, block, or needs-human."""
     try:
+        print(f"POE_KEY_PRESENT: {bool(os.environ.get('POE_API_KEY'))}")
         resp = litellm.completion(
             model="openai/gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             api_base="https://api.poe.com/v1",
             api_key=os.environ.get("POE_API_KEY"),
+            custom_llm_provider="openai",
             timeout=15,
         )
         text = resp.choices[0].message.content.strip().lower()
