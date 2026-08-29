@@ -13,9 +13,8 @@ Production: https://web-production-aff0b.up.railway.app
 - Check: `POST /check`
 
 This does not move money. It is a pre-spend decision layer.
-
-'''bash
-curl -s -X POST https://web-production-aff0b.up.railway.app/check -H 'content-type: application/json' -d '{'''
+'''bash'''
+curl -s -X POST https://web-production-aff0b.up.railway.app/check -H 'content-type: application/json' -d '{'''}
   "approved_task":"pay the monthly AWS hosting invoice",
   "approved_destinations":["0xAWS"],
   "destination":"0xAWS",
