@@ -22,7 +22,6 @@ curl -s -X POST https://web-production-aff0b.up.railway.app/check -H 'content-ty
   "amount":10,
   "recent_context":"routine monthly cloud hosting bill"
 }'
-
 ## Architecture
 
 Two-layer decision, cheap gate first:
