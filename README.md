@@ -6,7 +6,7 @@ On `allow`, ClawClear mints a short-lived **clearance token bound to that exact
 payment** (destination + amount + nonce + expiry) so the payment rail can prove
 the spend was actually cleared.
 ## Live
-
+https://buy.stripe.com/00waEWgDyfAj7UQdaX08g00
 Production: https://web-production-aff0b.up.railway.app
 
 - Health: `GET /` returns `{"status":"ClawClear running"}`
@@ -14,7 +14,7 @@ Production: https://web-production-aff0b.up.railway.app
 
 This does not move money. It is a pre-spend decision layer.
 
-```bash
+bash
 curl -s -X POST https://web-production-aff0b.up.railway.app/check -H 'content-type: application/json' -d '{
   "approved_task":"pay the monthly AWS hosting invoice",
   "approved_destinations":["0xAWS"],
