@@ -5,6 +5,23 @@ agent moves money, it asks ClawClear and gets back **allow / block / needs-human
 On `allow`, ClawClear mints a short-lived **clearance token bound to that exact
 payment** (destination + amount + nonce + expiry) so the payment rail can prove
 the spend was actually cleared.
+## Live
+
+Production: https://web-production-aff0b.up.railway.app
+
+- Health: `GET /` returns `{"status":"ClawClear running"}`
+- Check: `POST /check`
+
+This does not move money. It is a pre-spend decision layer.
+
+```bash
+curl -s -X POST https://web-production-aff0b.up.railway.app/check -H 'content-type: application/json' -d '{
+  "approved_task":"pay the monthly AWS hosting invoice",
+  "approved_destinations":["0xAWS"],
+  "destination":"0xAWS",
+  "amount":10,
+  "recent_context":"routine monthly cloud hosting bill"
+}'
 
 ## Architecture
 
